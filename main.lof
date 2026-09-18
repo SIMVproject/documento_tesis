@@ -1,0 +1,12 @@
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
+\contentsline {figure}{\numberline {1}{\ignorespaces Comparación de forma de onda y espectrograma entre grabación vocal cruda (entrada) y stem procesado (salida objetivo) en el sistema DAE. Fuente: Martínez Ramírez y Reiss [5].}}{21}{figure.caption.3}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Diagrama de integración de tecnologías clave para el análisis acústico vocal asistido: procesamiento digital de señales, machine learning y simulación de entornos. Fuente: Chen [6].}}{22}{figure.caption.4}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Diagrama de bloques de la arquitectura Wave-U-Net adaptada para mezcla automática de batería, mostrando el flujo desde las pistas individuales (stems) hasta la mezcla estéreo de salida. Fuente: Martínez Ramírez et al. [2].}}{23}{figure.caption.5}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Diagrama del sistema MEGAMI, ilustrando los componentes de extracción de embeddings de efectos, el modelo de difusión condicional y el procesador de efectos por pista. Fuente: Moliner et al. [3].}}{24}{figure.caption.6}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Categorización de usuarios de herramientas inteligentes de mezcla según nivel de habilidad y objetivo final. Fuente: Vanka et al. [1].}}{25}{figure.caption.7}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Relación entre descriptores semánticos y configuraciones de ecualización mediante modelos de word embeddings. Fuente: Venkatesh, Moffat y Miranda [9].}}{27}{figure.caption.8}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Línea de tiempo de sistemas publicados para automatización de mezcla musical entre 2007 y 2017, clasificados por tipo de proceso automatizado. Fuente: De Man et al. [4].}}{32}{figure.caption.9}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Esquema de traducción de descriptores semánticos a parámetros de ecualización mediante word embeddings. Fuente: Venkatesh, Moffat y Miranda [9].}}{34}{figure.caption.10}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Diagrama de una consola de mezcla diferenciable orientada a la estimación de parámetros de procesamiento de audio. Fuente: Steinmetz et al. [7].}}{36}{figure.caption.12}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Arquitectura de un sistema de transferencia de estilo de mezcla basado en pistas crudas, referencia sonora y estimación de parámetros mediante consola diferenciable. Fuente: Vanka et al. [11].}}{37}{figure.caption.13}%

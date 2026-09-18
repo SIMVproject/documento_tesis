@@ -1,0 +1,618 @@
+\documentclass[12pt]{article}
+\usepackage[letterpaper, margin=2.5cm]{geometry}
+\usepackage[linktoc=all]{hyperref}
+\usepackage{fontspec} % si da error de compilación, comenta esta línea y \setmainfont
+\setmainfont{Times New Roman}
+\setlength{\parindent}{1.2cm}
+
+\tolerance=1000
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*}
+
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{url}
+\urlstyle{same}
+
+\title{Plataforma de asistencia inteligente para el diseño de cadenas de mezcla vocal en producción musical}
+\author{Juan Sebastian Arias Marmolejo \\ Código ASIS: 30000135818 \\ Juan.arias242@tau.usbmed.edu.co \\ Programa: Ingeniería de Sonido \\ Universidad de San Buenaventura Medellín}
+\date{Marzo 2026}
+
+\begin{document}
+
+\pagenumbering{arabic}
+
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+{\LARGE \textbf{Universidad de San Buenaventura Medellín}\par}
+\vspace{2cm}
+
+\begin{tabular}{|p{6cm}|p{8cm}|}
+\hline
+Nombre completo del (los) estudiante(s): & Juan Sebastian Arias Marmolejo \\
+\hline
+Código (s) ASIS: & 30000135818 \\
+\hline
+Correo electrónico: & Juan.arias242@tau.usbmed.edu.co \\
+\hline
+Cohorte: & \\
+\hline
+Programa: & Ingeniería de Sonido \\
+\hline
+Fecha: & Marzo 2026 \\
+\hline
+\end{tabular}
+
+\vspace{2cm}
+
+{\Large \textbf{Título:} Plataforma de asistencia inteligente para el diseño de cadenas de mezcla vocal en producción musical.\par}
+
+\vspace{1cm}
+
+{\large \textbf{Palabras clave:} Mezcla de audio; mezcla vocal; producción musical; machine learning; audio mixing.\par}
+
+\vfill
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+
+\listoftables
+\clearpage
+
+\listoffigures
+\clearpage
+
+% NOTA: tu anteproyecto (PDF) no incluye texto para INTRODUCCIÓN, por eso
+% esta sección no aparece aquí todavía.
+
+\section{PLANTEAMIENTO DEL PROBLEMA}
+% =====================================================================
+% PLANTEAMIENTO DEL PROBLEMA
+% Contenido transcrito literalmente desde Anteproyecto_JSA__260714_121407.pdf
+% (1.4 Descripción del Problema)
+% =====================================================================
+
+En el proceso de producción musical, la mezcla de audio representa una de las etapas más complejas y determinantes para la calidad final de una obra sonora. Dentro de ese proceso, la mezcla vocal ocupa un lugar central en la mayoría de los géneros musicales populares, pues, la voz es el elemento principal y su tratamiento técnico a través de cadenas de ecualización, compresión, de-essing, saturación y efectos espaciales influye directamente en la claridad, presencia e integración del canto dentro del instrumental. Sin embargo, construir una cadena de procesamiento vocal coherente y efectiva exige conocimientos técnicos que van más allá del uso básico de un DAW. Como señalan De Man, Reiss y Stables en [4], incluso con acceso a herramientas digitales de alta calidad, un productor sin experiencia formal casi inevitablemente generará problemas sonoros durante la grabación y la mezcla, lo que aumenta la necesidad de sistemas que puedan orientar el proceso.
+
+Esta situación se ha vuelto especialmente relevante en el contexto de la producción musical independiente. Con el auge de las herramientas de producción como softwares, plugins y DAWs accesibles a cualquier persona con un computador, una cantidad creciente de productores musicales asumen simultáneamente los roles de grabación, edición y mezcla sin contar con una formación técnica sólida en cada una de esas áreas. Vanka et al. en [1] documentaron esta realidad a través de entrevistas y cuestionarios con ingenieros de distintos niveles de experiencia y confirmaron que los productores amateurs perciben la mezcla como el principal obstáculo para publicar su música, y que muchos trabajan mediante ensayo y error al no contar con una guía técnica clara para organizar sus cadenas de procesamiento.
+
+La literatura sobre sistemas de mezcla automática e inteligente ha explorado diversos caminos para abordar este problema. Por un lado, Martínez Ramírez y Reiss en [5] demostraron que las redes neuronales profundas pueden aprender transformaciones de audio complejas directamente desde señales crudas, sin necesidad de modelar efectos individuales de manera explícita. Por otro lado, Martínez Ramírez, Stoller y Moffat en [2] confirmaron que este tipo de sistemas puede producir mezclas perceptualmente indistinguibles de las realizadas por ingenieros humanos, al menos en contextos instrumentales bien delimitados como la batería. Sin embargo, estos sistemas están orientados principalmente a la automatización completa del proceso de mezcla, lo cual no se ajusta necesariamente a las necesidades de todos los usuarios ni respeta la naturaleza creativa y subjetiva del proceso.
+
+En ese marco, Moliner et al. en [3] plantearon una crítica directa a los enfoques determinísticos: tratar la mezcla como un problema de regresión de uno a uno ignora el hecho de que múltiples soluciones válidas pueden existir para las mismas pistas de entrada, lo que resulta en sistemas que producen mezclas planas y que no tienen en cuenta la diversidad de decisiones artísticas posibles. Este planteamiento refuerza la idea de que la mezcla vocal, con su alta variabilidad técnica y estilística y su dependencia de las características acústicas específicas de cada voz, no puede ser tratada como un problema de una única solución técnica universal.
+
+Por su parte, Vanka et al. en [1] aportaron evidencia empírica de que los distintos perfiles de usuario requieren soluciones diferentes: mientras los amateurs prefieren sistemas completamente autónomos, los semi-amateurs y los profesionales valoran más las herramientas que funcionan como asistentes, ofreciendo un punto de partida que pueden ajustar y refinar según su criterio. Esta distinción es fundamental para el diseño del sistema propuesto en el presente proyecto.
+
+Como consecuencia de lo anterior, existe una necesidad concreta de desarrollar herramientas que no busquen reemplazar el criterio del ingeniero de sonido, sino que lo asistan de manera técnicamente informada. Una plataforma capaz de analizar las características acústicas de una señal vocal y proponer cadenas iniciales de procesamiento ajustables respondería directamente a esa necesidad: reduciría la incertidumbre técnica que enfrentan los productores con menor experiencia y facilitaría el aprendizaje del proceso de mezcla y permitiría al usuario mantener el control creativo sobre las decisiones finales.
+
+\section{JUSTIFICACIÓN}
+% =====================================================================
+% JUSTIFICACIÓN
+% Contenido transcrito literalmente desde Anteproyecto_JSA__260714_121407.pdf
+% (1.6 Justificación del problema)
+% =====================================================================
+
+Desde la perspectiva de la ingeniería de sonido y la producción musical, el proceso de mezcla representa una de las etapas más complejas y determinantes dentro de la creación de una obra sonora. En particular, la mezcla vocal requiere una serie de decisiones técnicas relacionadas con ecualización, control dinámico, espacialidad y procesamiento armónico, las cuales influyen directamente en la claridad, presencia e integración de la voz dentro del arreglo musical [1]. Sin embargo, en la práctica profesional se reconoce que no existe una única forma correcta de realizar una mezcla, ya que cada ingeniero o productor desarrolla su propio enfoque técnico y estético dependiendo del género musical, las características de la grabación y la intención artística del proyecto. [2] Esta diversidad de criterios genera un escenario en el que los productores con menor experiencia pueden enfrentar dificultades al momento de estructurar cadenas de procesamiento vocal coherentes.
+
+Desde un punto de vista práctico, esta situación es especialmente relevante en el contexto actual de la producción musical digital y los entornos de home studio, donde una gran cantidad de productores independientes asumen simultáneamente los roles de grabación, edición y mezcla [1]. Aunque existen numerosas herramientas digitales y plugins de procesamiento de audio, estas no siempre ofrecen orientación clara sobre cómo organizar o estructurar una cadena de mezcla adecuada para una voz específica [3]. Como consecuencia, muchos productores trabajan mediante ensayo y error, lo que puede prolongar los tiempos de producción y generar resultados inconsistentes entre diferentes proyectos.
+
+En este contexto, el desarrollo de una plataforma inteligente capaz de generar propuestas de cadenas de mezcla vocal puede representar un aporte significativo para el campo de la producción musical [4]. En lugar de reemplazar el criterio creativo del ingeniero de sonido, una herramienta de este tipo podría funcionar como un sistema de asistencia que ofrezca configuraciones iniciales de procesamiento basadas en características acústicas de la voz [5]. De esta manera, el productor o ingeniero mantendría el control sobre las decisiones finales de mezcla, pero contaría con una guía técnica que facilite la organización de su flujo de trabajo y reduzca la incertidumbre al momento de construir cadenas de procesamiento vocal. Este enfoque busca fortalecer la relación entre tecnología e ingeniería de sonido, promoviendo el uso de herramientas inteligentes como apoyo para la toma de decisiones dentro del proceso creativo de la producción musical [1].
+
+\clearpage
+\section{OBJETIVOS}
+
+\subsection*{Objetivo General}
+% =====================================================================
+% OBJETIVO GENERAL
+% Contenido transcrito literalmente desde Anteproyecto_JSA__260714_121407.pdf
+% (1.7 Objetivo General)
+% =====================================================================
+
+Desarrollar una plataforma inteligente capaz de generar propuestas adaptativas de cadenas de mezcla vocal, mediante el análisis de características acústicas y el uso de técnicas de machine learning, en entornos de producción musical digital independientes entre 2010 y 2025, con el fin de reducir la incertidumbre técnica y asistir el proceso de toma de decisiones en la mezcla vocal.
+
+\subsection*{Objetivos Específicos}
+% =====================================================================
+% OBJETIVOS ESPECÍFICOS
+% Contenido transcrito literalmente desde Anteproyecto_JSA__260714_121407.pdf
+% (1.8 Objetivos Específicos)
+% =====================================================================
+
+\begin{itemize}
+    \item Analizar las características acústicas importantes de la voz que influyen en la construcción de cadenas de mezcla vocal, a partir de la revisión de literatura y datasets de producciones profesionales.
+    \item Identificar patrones y configuraciones comunes de procesamiento vocal utilizados por ingenieros de sonido en diferentes contextos de producción musical.
+    \item Diseñar un sistema inteligente basado en machine learning capaz de generar propuestas de cadenas de mezcla vocal ajustables según las características de la señal de entrada.
+    \item Evaluar el desempeño del sistema propuesto en términos de coherencia, utilidad y apoyo en la toma de decisiones durante el proceso de mezcla vocal en usuarios con distintos niveles de experiencia.
+\end{itemize}
+
+\section{PROBLEMA DE INVESTIGACIÓN}
+% =====================================================================
+% PROBLEMA DE INVESTIGACIÓN
+% Contenido transcrito literalmente desde Anteproyecto_JSA__260714_121407.pdf
+% (1.5 Pregunta de Investigación)
+% =====================================================================
+
+\begin{quote}
+¿De qué manera un asistente inteligente de mezcla vocal puede reducir la incertidumbre en la técnica para productores con distinto nivel de experiencia en entornos de producción musical?
+\end{quote}
+
+\textbf{Subpreguntas:}
+
+\begin{itemize}
+    \item \textit{¿Qué características acústicas de la voz pueden utilizarse para generar propuestas de procesamiento vocal?}
+    \item \textit{¿De qué manera un sistema inteligente puede generar cadenas de mezcla que funcionen como guía para el usuario sin limitar su control creativo?}
+\end{itemize}
+
+% NOTA: tu anteproyecto (PDF) no incluye texto para HIPÓTESIS.
+
+\section{MARCO TEÓRICO}
+% =====================================================================
+% MARCO TEÓRICO
+% Contenido transcrito literalmente desde Anteproyecto_JSA__260714_121407.pdf
+% =====================================================================
+
+\subsection*{Método de revisión de literatura}
+
+\subsubsection*{1.1 Objeto de Estudio}
+
+\textbf{Filtro temático (arista del problema)}
+
+El uso de herramientas inteligentes para asistir el proceso de mezcla vocal, específicamente sistemas capaces de generar propuestas de cadenas de procesamiento de audio en producción musical.
+
+\textbf{Filtro espacial (lugar)}
+
+Contexto de producción musical en entornos de estudios caseros y producción independiente, donde la mezcla suele ser realizada por productores o ingenieros con diferentes niveles de experiencia.
+
+\textbf{Filtro temporal (época)}
+
+Estudio diacrónico, enfocado en el desarrollo de tecnologías de mezcla automática y sistemas inteligentes aplicados al audio entre 2010 y 2025.
+
+\textbf{Objeto de estudio delimitado}
+
+El desarrollo de sistemas inteligentes para la generación o asistencia en cadenas de mezcla vocal en entornos de producción musical digital entre 2010 y 2025.
+
+\subsubsection*{1.2 Protocolo de Búsqueda}
+
+\begin{table}[h!]
+\centering
+\caption{Conceptos y sinónimos utilizados en el protocolo de búsqueda}
+\label{tab:protocolo_busqueda}
+\begin{tabular}{|p{2.7cm}|p{3.3cm}|p{3.3cm}|c|}
+\hline
+\textbf{Concepto} & \textbf{Sinónimos en español} & \textbf{Sinónimos en inglés} & \textbf{Grupo} \\
+\hline
+Mezcla de audio & mezcla musical, mezcla sonora & audio mixing, sound mixing & A \\
+\hline
+Mezcla vocal & procesamiento vocal, mezcla de voz & vocal mixing, voice processing & B \\
+\hline
+Inteligencia artificial & aprendizaje automático, sistemas inteligentes & artificial intelligence, machine learning & C \\
+\hline
+Procesamiento de audio & procesamiento digital de señales, efectos de audio & audio processing, digital signal processing & D \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Palabras clave y sinónimos (Tesauro):} \textit{Para la construcción de la estrategia de búsqueda, se identificaron las siguientes palabras claves relacionadas con el problema de investigación. Se adjuntan junto a sus respectivos sinónimos y términos asociados.}
+
+\begin{enumerate}
+    \item Mezcla de audio
+    \begin{enumerate}
+        \item Palabra clave: Audio mixing
+        \item Sinónimos / términos asociados:
+        \begin{enumerate}[label=\roman*)]
+            \item Music Mixing.
+            \item Multitrack Mixing.
+            \item Sound Mixing.
+            \item Audio Production.
+        \end{enumerate}
+    \end{enumerate}
+    \item Mezcla automática
+    \begin{enumerate}
+        \item Palabra clave: Automatic Mixing
+        \item Sinónimos / términos asociados:
+        \begin{enumerate}[label=\roman*)]
+            \item Automated Mixing.
+            \item Intelligent Mixing.
+            \item Autonomous Mixing.
+            \item AI Mixing.
+        \end{enumerate}
+    \end{enumerate}
+    \item Aprendizaje automático
+    \begin{enumerate}
+        \item Palabra clave: Machine Learning
+        \item Sinónimos / términos asociados:
+        \begin{enumerate}[label=\roman*)]
+            \item ML.
+            \item Artificial Intelligence.
+            \item AI.
+            \item Data-driven models.
+        \end{enumerate}
+    \end{enumerate}
+    \item Aprendizaje profundo
+    \begin{enumerate}
+        \item Palabra clave: Deep Learning
+        \item Sinónimos / términos asociados:
+        \begin{enumerate}[label=\roman*)]
+            \item Neural Networks.
+            \item DNN (Deep Neural Networks).
+            \item Convolutional Neural Networks (CNN).
+            \item Generative Models.
+        \end{enumerate}
+    \end{enumerate}
+    \item Procesamiento de audio
+    \begin{enumerate}
+        \item Palabra clave: Audio Processing
+        \item Sinónimos / términos asociados:
+        \begin{enumerate}[label=\roman*)]
+            \item Digital Signal Processing (DSP).
+            \item Audio Signal Processing.
+            \item Sound Processing.
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+
+\textbf{Bases de datos consultadas:} \textit{Google Scholar, IEEE Xplore, Scopus, ScienceDirect, ACM Digital Library, Springer Link.}
+
+\textbf{Ecuación de búsqueda booleana:}
+
+\begin{itemize}
+    \item \textit{(audio mixing OR music mixing OR sound mixing)}
+    \item \textit{AND (vocal mixing OR voice processing)}
+    \item \textit{AND (artificial intelligence OR machine learning OR intelligent systems)}
+    \item \textit{AND (music production OR audio production)}
+\end{itemize}
+
+\textbf{Criterios de inclusión:}
+
+\begin{itemize}
+    \item \textit{Artículos científicos revisados por pares.}
+    \item \textit{Publicaciones entre 2015 y 2025.}
+    \item \textit{Artículos relacionados con mezcla automática, inteligencia artificial aplicada al audio o asistencia inteligente en producción musical.}
+    \item \textit{Documentos en español e inglés.}
+\end{itemize}
+
+\textbf{Criterios de exclusión:}
+
+\begin{itemize}
+    \item Tesis de pregrado o documentos sin revisión académica.
+    \item Artículos duplicados entre bases de datos.
+    \item Investigaciones no relacionadas con mezcla de audio o producción musical.
+    \item Publicaciones anteriores a 2015.
+\end{itemize}
+
+\subsubsection*{1.3 Tabla de Sistematización de la Revisión}
+
+\begin{longtable}{|p{1.4cm}|p{3.0cm}|p{2.2cm}|p{1.5cm}|p{1.0cm}|p{1.6cm}|p{0.9cm}|p{1.3cm}|p{2.6cm}|}
+\caption{Tabla de sistematización de la revisión de literatura}
+\label{tab:sistematizacion} \\
+\hline
+\textbf{Fuente (BD)} & \textbf{Título del documento} & \textbf{Estrategia de búsqueda} & \textbf{Fecha de búsqueda} & \textbf{Año de publicación} & \textbf{Tipo (Art./Mem./Tesis/Estándar)} & \textbf{Inclusión/ Exclusión} & \textbf{Clasificación (1°/2°/3°)} & \textbf{Pregunta de investigación que responde} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Fuente (BD)} & \textbf{Título del documento} & \textbf{Estrategia de búsqueda} & \textbf{Fecha de búsqueda} & \textbf{Año de publicación} & \textbf{Tipo (Art./Mem./Tesis/Estándar)} & \textbf{Inclusión/ Exclusión} & \textbf{Clasificación (1°/2°/3°)} & \textbf{Pregunta de investigación que responde} \\
+\hline
+\endhead
+\hline
+\endfoot
+AES (JAES) & A Deep Learning Approach to Intelligent Drum Mixing With the Wave-U-Net & "automatic drum mixing" AND "deep learning" & 24/03/2026 & 2021 & Artículo & I & 1° & ¿Cómo aplicar deep learning para automatizar la mezcla de audio? \\
+\hline
+arXiv & Automatic Music Mixing Using a Generative Model of Effect Embeddings (MEGAMI) & "automatic music mixing" AND "generative model" & 23/03/2026 & 2025 & Artículo & I & 1° & ¿Cómo modelar múltiples soluciones de mezcla mediante IA generativa? \\
+\hline
+AES Workshop (WIMP) & Ten Years of Automatic Mixing & "automatic mixing review" & 23/03/2026 & 2017 & Artículo (Workshop) & I & 2° & ¿Cómo ha evolucionado la mezcla automática y cuáles son sus enfoques? \\
+\hline
+AES Workshop (WIMP) & Deep Learning and Intelligent Audio Mixing & "deep learning audio mixing" & 24/03/2026 & 2017 & Artículo (Workshop) & I & 2° & ¿Cómo se integran técnicas de deep learning en la mezcla de audios? \\
+\hline
+arXiv & Diff-MST: Differentiable Mixing Style Transfer & "mixing style transfer" AND "deep learning" & 25/03/2026 & 2024 & Artículo & I & 1° & ¿Cómo transferir estilos de mezcla mediante Deep Learning y procesamiento diferenciable? \\
+\hline
+COLM Proceedings & MixAssist: An Audio-Language Dataset for Co-Creative AI Assistance in Music Mixing & "AI assistance music mixing" AND "audio-language models" & 15/05/2026 & 2025 & Artículo & I & 1° & ¿Cómo implementar asistentes co-creativos para apoyar procesos de mezcla musical? \\
+\hline
+AES (JAES) & A Deep Learning Approach to Intelligent Drum Mixing With Wave-U-Net & "automatic drum mixing" AND "deep learning" & 15/05/2026 & 2021 & Artículo & I & 1° & ¿Cómo aplicar deep learning para automatizar la mezcla de baterías? \\
+\hline
+arXiv & Automatic Music Mixing Using a Generative Model of Effect Embeddings (MGEMI) & "automatic music mixing" AND "generative model" & 15/05/2026 & 2025 & Artículo & I & 1° & ¿Cómo modelar múltiples soluciones de mezcla mediante IA generativa? \\
+\hline
+AES Workshop (WIMP) & Ten Years of Automatic Mixing & "automatic mixing review" & 15/05/2026 & 2017 & Artículo (Workshop) & I & 2° & ¿Cómo ha evolucionado la mezcla automática y cuáles son sus enfoques? \\
+\hline
+AES Workshop (WIMP) & Deep Learning and Intelligent Audio Mixing & "deep learning audio mixing" & 15/05/2026 & 2017 & Artículo (Workshop) & I & 2° & ¿Cómo se integran técnicas de deep learning en la mezcla de audio? \\
+\hline
+AES (JAES) & Context-Aware Intelligent Mixing Systems & "intelligent mixing systems" AND "context-aware" & 15/05/2026 & 2021 & Artículo & I & 1° & ¿Cómo influye el contexto en los sistemas inteligentes de mezcla de audio? \\
+\hline
+\end{longtable}
+
+\subsection*{Marco conceptual del proyecto}
+
+\subsubsection*{Mezcla de audio}
+
+La mezcla de audio es una de las etapas más determinantes dentro del proceso de producción musical. En términos técnicos, consiste en combinar múltiples pistas individuales, cada una con su propia dinámica, timbre y contenido espectral, para obtener una versión final equilibrada y coherente de una obra sonora. Como describen De Man, Reiss y Stables en [4], las pistas grabadas casi siempre requieren un procesamiento considerable antes de estar listas para su distribución, que incluye balance de niveles, paneo, ecualización (EQ), compresión de rango dinámico y reverberación artificial.
+
+Lo que hace a la mezcla un proceso complejo es que no existe una única solución correcta. Múltiples ingenieros pueden abordar el mismo material y llegar a resultados igualmente válidos dependiendo de sus criterios estéticos, el género musical y la intención artística del proyecto. Esta naturaleza abierta del proceso fue descrita por Moliner et al. en [3], quien señaló que la mezcla es una tarea caracterizada por la subjetividad, donde existen múltiples soluciones válidas para un mismo conjunto de pistas. Por esta razón, los sistemas automáticos que tratan la mezcla como un problema de estándares por géneros, es decir, que intentan predecir una única mezcla "correcta" en base a un estándar y no a la necesidad de la grabación, tienden a producir resultados planos y poco expresivos.
+
+Desde la perspectiva práctica, el proceso de mezcla abarca decisiones en distintos niveles: el control de gain staging y balance de faders, la gestión espectral mediante EQ, el control dinámico a través de compresores y limitadores, la construcción del espacio sonoro con reverberación y delay, y el uso de efectos creativos como saturación o modulación. Todas estas decisiones son interdependientes; modificar un parámetro en una pista puede afectar la percepción del conjunto. Esta interdependencia fue descrita con precisión por Martínez Ramírez, Stoller y Moffat en [2], quienes afirman que todos los aspectos y parámetros de una mezcla están inherentemente entrelazados e interrelacionados.
+
+\subsubsection*{Mezcla vocal}
+
+Dentro del proceso de mezcla general, la mezcla vocal ocupa un lugar especialmente relevante. La voz humana es el elemento central en la mayoría de los géneros musicales populares, y su tratamiento busca lograr claridad, inteligibilidad y presencia dentro del conjunto sonoro de la canción sin que pierda su carácter ni se desvincule del arreglo instrumental que la acompaña.
+
+El procesamiento vocal típicamente se organiza en cadenas de efectos secuenciales en las que el orden y la configuración de cada herramienta afectan directamente el resultado final. Una cadena de mezcla vocal puede incluir filtros de paso alto para eliminar frecuencias indeseadas en los graves, ecualizadores paramétricos para moldear el timbre, compresores para controlar la dinámica y homogeneizar la presencia, de-essers para reducir sibilancias excesivas, saturadores para añadir armónicos que den calidez, y efectos de tiempo como reverberación y delay para posicionar la voz en un espacio sonoro determinado. La elección de estos procesos y de sus parámetros no responde a una fórmula fija: depende de las características acústicas de la voz grabada, del estilo musical y de las decisiones creativas del ingeniero.
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=0.8\textwidth]{RUTA_A_TU_IMAGEN} % <-- INSERTAR AQUÍ Fig. 1
+\caption{Comparación de forma de onda y espectrograma entre grabación vocal cruda (entrada) y stem procesado (salida objetivo) en el sistema DAE. Fuente: Martínez Ramírez y Reiss [5].}
+\label{fig:fig1}
+\end{figure}
+
+Esta diversidad de configuraciones posibles genera una brecha de incertidumbre importante, especialmente para productores con menor experiencia. Como señala el trabajo de Vanka et al. en [1], muchos productores en contextos de home studio enfrentan la mezcla sin formación profesional, lo que los lleva a trabajar mediante ensayo y error, lo cual prolonga los tiempos de producción y genera resultados inconsistentes.
+
+\subsubsection*{Inteligencia artificial aplicada al audio}
+
+La inteligencia artificial hace referencia al desarrollo de sistemas computacionales capaces de analizar datos, identificar patrones y tomar decisiones sin ser programados de manera explícita para cada caso. En el campo del audio y la producción musical, estas tecnologías han ganado terreno de manera constante en los últimos años, impulsadas por el crecimiento del aprendizaje profundo y la disponibilidad de grandes volúmenes de datos de audio.
+
+Dentro de las técnicas más utilizadas se encuentran las redes neuronales profundas (DNN), que han demostrado ser capaces de aprender transformaciones complejas directamente desde señales de audio. Martínez Ramírez y Reiss, en [5], propusieron desde 2017 una investigación centrada en el uso de autoencoders profundos para aprender cadenas de efectos de audio como transformaciones basadas en contenido, siguiendo arquitecturas de extremo a extremo donde el audio crudo es tanto la entrada como la salida del sistema.
+
+Un aspecto fundamental para el desarrollo de sistemas inteligentes de asistencia en mezcla vocal es la capacidad de analizar y cuantificar las características acústicas de la voz de manera objetiva. Chen en [6], investigó el uso de tecnologías de procesamiento digital de señales y machine learning para el entrenamiento vocal asistido por computador, demostrando que parámetros como la frecuencia fundamental, la relación armónico-ruido (HNR) y los coeficientes mel-frequency cepstral (MFCC) permiten evaluar y retroalimentar el desempeño vocal con mayor precisión que los métodos tradicionales. En un experimento con 60 participantes durante 12 semanas, el grupo entrenado con asistencia computacional mostró mejoras en precisión de pitch casi el doble de las obtenidas con métodos convencionales, lo que evidencia que la cuantificación de parámetros acústicos vocales es no solo viable sino significativamente más efectiva para orientar procesos de ajuste técnico [6]. Aunque el contexto de ese trabajo es pedagógico, los parámetros acústicos identificados son igualmente relevantes para un sistema que busca analizar señales vocales y proponer cadenas de procesamiento adaptadas a sus características.
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=0.7\textwidth]{RUTA_A_TU_IMAGEN} % <-- INSERTAR AQUÍ Fig. 2
+\caption{Diagrama de integración de tecnologías clave para el análisis acústico vocal asistido: procesamiento digital de señales, machine learning y simulación de entornos. Fuente: Chen [6].}
+\label{fig:fig2}
+\end{figure}
+
+Uno de los avances más significativos en este campo fue el trabajo de Martínez Ramírez, Stoller y Moffat en [2], quienes propusieron el uso de una variante de la arquitectura Wave-U-Net para la mezcla automática de batería. En ese trabajo se demostró que una red neuronal profunda puede aprender directamente la transformación de audio implicada en la mezcla sin necesidad de modelar efectos individuales por separado, y que los resultados obtenidos fueron perceptualmente indistinguibles de las mezclas realizadas por ingenieros humanos profesionales.
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=0.9\textwidth]{RUTA_A_TU_IMAGEN} % <-- INSERTAR AQUÍ Fig. 3
+\caption{Diagrama de bloques de la arquitectura Wave-U-Net adaptada para mezcla automática de batería, mostrando el flujo desde las pistas individuales (stems) hasta la mezcla estéreo de salida. Fuente: Martínez Ramírez et al. [2].}
+\label{fig:fig3}
+\end{figure}
+
+Más recientemente, Moliner et al. en [3] introdujeron MEGAMI (\textit{Multitrack Embedding Generative Auto MIxing}), un framework generativo basado en modelos de difusión condicional que opera en un espacio de embeddings de efectos. A diferencia de los enfoques de regresión anteriores, MEGAMI modela la distribución condicional de mezclas profesionales, reconociendo que para un mismo conjunto de pistas existen múltiples mezclas igualmente válidas. Este enfoque representa un cambio de paradigma relevante: pasar de predecir una única mezcla "promedio" a generar propuestas diversas que reflejan distintas decisiones artísticas posibles.
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=0.9\textwidth]{RUTA_A_TU_IMAGEN} % <-- INSERTAR AQUÍ Fig. 4
+\caption{Diagrama del sistema MEGAMI, ilustrando los componentes de extracción de embeddings de efectos, el modelo de difusión condicional y el procesador de efectos por pista. Fuente: Moliner et al. [3].}
+\label{fig:fig4}
+\end{figure}
+
+\subsubsection*{Sistemas inteligentes de asistencia en producción musical}
+
+No todos los sistemas inteligentes para producción musical están orientados a la automatización completa del proceso. Existe una distinción importante y relevante, entre sistemas de mezcla completamente automáticos y herramientas de asistencia inteligente que apoyan las decisiones del usuario sin reemplazar su criterio creativo.
+
+De Man, Reiss y Stables, en [4], identificaron esta división, clasificando las aplicaciones de mezcla automática en una escala que va desde sistemas de un sistema de caja negra sin intervención humana hasta asistentes que ofrecen un punto de partida para el ingeniero. Los autores destacan que aunque los sistemas completamente automáticos tienen aplicaciones correctas en contextos con recursos limitados como ensayos de bandas o salas pequeñas de conciertos sin ingenieros profesionales, en producción profesional la mayoría de los ingenieros prefieren herramientas que les ofrezcan control y personalización.
+
+Esta preferencia fue confirmada empíricamente por Vanka et al. en [1], quienes investigaron la adopción de herramientas de IA en flujos de trabajo de mezcla a través de entrevistas, cuestionarios y análisis de foros de internet. Sus hallazgos identificaron tres grupos de usuarios con necesidades distintas: los amateurs, que buscan sistemas altamente autónomos que simplifiquen el proceso; los semi-profesionales, que valoran las herramientas como punto de partida y como recurso de aprendizaje; y los profesionales, que demandan control, precisión y posibilidades de personalización avanzada. Los autores señalan además que los profesionales muestran mayor aceptación hacia tecnologías asistivas y co-creativas, en las que el sistema hace sugerencias y el ingeniero tiene la decisión final.
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=0.7\textwidth]{RUTA_A_TU_IMAGEN} % <-- INSERTAR AQUÍ Fig. 5
+\caption{Categorización de usuarios de herramientas inteligentes de mezcla según nivel de habilidad y objetivo final. Fuente: Vanka et al. [1].}
+\label{fig:fig5}
+\end{figure}
+
+Este contexto sostiene el enfoque del presente proyecto: en lugar de buscar automatizar completamente la mezcla vocal, se propone un sistema inteligente de asistencia capaz de generar propuestas iniciales de cadenas de procesamiento que el usuario pueda ajustar según su criterio. De esta manera, el sistema actúa como un punto de partida técnicamente informado, reduciendo la incertidumbre sin limitar la libertad creativa del ingeniero de mezcla.
+
+\subsubsection*{Sistemas inteligentes interpretables en mezcla}
+
+Un aspecto importante dentro del desarrollo reciente de herramientas inteligentes para producción musical es la necesidad de que los sistemas no funcionen únicamente como cajas negras. En los primeros enfoques de mezcla automática, muchos modelos buscaban generar directamente una señal de audio final a partir de las pistas de entrada. Aunque este tipo de aproximación puede producir resultados técnicamente válidos, presenta una limitación importante para el usuario: no siempre permite comprender qué decisiones tomó el sistema ni modificar con precisión los procesos aplicados.
+
+En este sentido, los sistemas interpretables buscan generar resultados que puedan ser revisados y ajustados por el ingeniero o productor dependiendo de la situación. Esto significa que en lugar de entregar únicamente una mezcla final cerrada, el sistema puede proponer parámetros de procesamiento, configuraciones de efectos o cadenas de mezcla que el usuario pueda modificar según su criterio. Steinmetz et al. [7] propone una consola de mezcla diferenciable capaz de producir parámetros legibles para el usuario, lo que permite ajustar manualmente la mezcla generada y conservar cierto grado de control creativo. Este enfoque resulta relevante para el presente proyecto, ya que la plataforma propuesta no busca reemplazar al ingeniero de mezcla, sino asistirlo en la construcción inicial de una cadena vocal ajustable.
+
+En el caso de la mezcla vocal, la interpretabilidad adquiere una importancia particular, ya que decisiones como aplicar un filtro de paso alto, reducir resonancias, controlar sibilancias, comprimir la dinámica o añadir reverberación no responden únicamente a criterios automáticos, sino también a la intención artística de la canción. Por esta razón, una plataforma de asistencia inteligente debe permitir que el usuario comprenda la lógica general de la recomendación y pueda modificarla según las necesidades de la voz y del contexto musical.
+
+\subsubsection*{Descriptores semánticos aplicados a la mezcla}
+
+En la práctica de la producción musical, muchas decisiones de mezcla no se comunican únicamente mediante términos técnicos, sino también mediante descripciones sensoriales o semánticos. Es común que artistas, productores o clientes describan una voz como "opaca", "brillante", "nasal", "cálida", "agresiva", "suave" o "presente", incluso cuando no tienen conocimientos específicos sobre ecualización, compresión o procesamiento dinámico. Estos términos hacen parte del lenguaje cotidiano de la mezcla y permiten traducir una intención sonora en una posible acción técnica.
+
+Venkatesh, Moffat y Miranda [9] exploran esta relación entre lenguaje y procesamiento de audio mediante el uso de word embeddings para traducir descriptores semánticos a configuraciones de ecualización. Su propuesta parte de la idea de que los usuarios pueden expresar objetivos sonoros en palabras y que un sistema inteligente puede aprender relaciones entre esos descriptores y ciertos comportamientos de ecualización. Este enfoque es relevante para el presente proyecto porque permite ver el asistente no solo como una herramienta que analiza datos acústicos, sino también como un sistema que puede recibir información sobre la intención sonora del usuario.
+
+Aplicado a la mezcla vocal, esto significa que la plataforma podría relacionar descriptores como "más clara", "menos nasal" o "más cálida" con decisiones de procesamiento específicas, como aumentar la presencia en ciertas bandas de frecuencia, reducir acumulaciones en medios bajos o controlar sibilancias en la zona alta del espectro. De esta manera, el asistente podría funcionar como una conexión entre el lenguaje perceptual del usuario y las acciones técnicas propias de una cadena de mezcla vocal.
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=0.9\textwidth]{RUTA_A_TU_IMAGEN} % <-- INSERTAR AQUÍ Fig. 6
+\caption{Relación entre descriptores semánticos y configuraciones de ecualización mediante modelos de word embeddings. Fuente: Venkatesh, Moffat y Miranda [9].}
+\label{fig:fig6}
+\end{figure}
+
+\subsubsection*{Contexto e intención sonora en sistemas inteligentes de mezcla}
+
+La mezcla musical no ocurre de manera independiente. Cada decisión técnica depende del contexto de la canción, del género musical, de la intención estética, de las expectativas del artista y del nivel de experiencia del usuario. Por esta razón, una misma cadena de procesamiento vocal puede funcionar adecuadamente en un género musical y resultar inapropiada en otro. Una voz principal en pop, por ejemplo, puede requerir un tratamiento más brillante, presente y controlado, mientras que una voz en un contexto urbano, alternativo o experimental puede buscar una textura más procesada, saturada o espacial.
+
+Lefford et al. [8] proponen que los sistemas inteligentes de mezcla deben considerar el contexto, ya que los ingenieros humanos toman decisiones no solo a partir de reglas técnicas, sino también de la situación musical, las convenciones del género y las expectativas creativas del proyecto. Desde esta perspectiva, una herramienta inteligente no debería limitarse a aplicar reglas generales de procesamiento, sino que debería adaptarse, al menos parcialmente, a las condiciones particulares de cada producción.
+
+Este planteamiento refuerza la orientación asistiva del presente proyecto. La plataforma propuesta debe analizar la señal vocal, pero también permitir que el usuario indique información contextual básica, como el género musical, el tipo de voz, el objetivo sonoro o una referencia musical. De esta manera, la cadena sugerida no se entendería como una solución universal, sino como una propuesta inicial ajustada a una situación de mezcla específica.
+
+\subsubsection*{Criterios objetivos de evaluación en mezcla vocal}
+
+Aunque la mezcla musical tiene un componente subjetivo y creativo, también existen criterios técnicos que permiten evaluar ciertos aspectos de calidad sonora. Variables como el loudness, el true peak, la presencia de clipping, el rango dinámico, el balance tonal, la compresión y la compatibilidad mono pueden aportar información objetiva sobre el estado de una mezcla o de una señal procesada. Estos criterios no reemplazan la escucha crítica, pero sí permiten identificar problemas técnicos que pueden afectar la claridad, la inteligibilidad y la calidad final del audio.
+
+Mourgela et al. [10] analiza una base de datos extensa de mezclas y masters a partir de métricas como loudness integrado, true peak, clipping, problemas de fase, compresión, amplitud estéreo y perfil tonal. Este tipo de análisis resulta útil para el presente proyecto ya que permite definir criterios técnicos que pueden integrarse en la evaluación de las cadenas vocales generadas por el sistema. En lugar de evaluar únicamente si una cadena "suena bien", se pueden observar también aspectos medibles como exceso de nivel, sobrecompresión, acumulación espectral o falta de control dinámico.
+
+En el caso de la mezcla vocal, estos criterios pueden adaptarse al análisis de claridad, presencia, sibilancia, estabilidad dinámica y balance tonal de la voz dentro del contexto musical. Así, la validación de la plataforma puede combinar una dimensión objetiva, basada en mediciones acústicas, y una dimensión subjetiva, basada en la percepción de usuarios e ingenieros de sonido.
+
+\subsection*{Marco referencial del proyecto}
+
+El campo de la mezcla automática e inteligente tiene raíces que se extienden por más de una década. De Man, Reiss y Stables, en [4], ofrecen una revisión sistemática del tema que abarca desde los trabajos pioneros de Enrique Perez Gonzalez entre 2007 y 2010, quien fue el primero en proponer métodos para automatizar no solo los niveles sino también el paneo estéreo en mezcla de audio, hasta los desarrollos más recientes que incorporan machine learning. En ese recorrido se hace evidente una tendencia clara: los sistemas basados en reglas y algoritmos fueron gradualmente reemplazados por enfoques de aprendizaje automático, que demostraron mayor flexibilidad para capturar la complejidad y variabilidad del proceso de mezcla. Los autores también identifican las aplicaciones más prometedoras del campo, organizándolas en cuatro categorías: sistemas de caja negra completamente autónomos, asistentes con distintos niveles de control para el usuario, interfaces con parámetros semánticos más accesibles, y herramientas de diagnóstico y medición inteligente.
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=0.7\textwidth]{RUTA_A_TU_IMAGEN} % <-- INSERTAR AQUÍ Fig. 7
+\caption{Línea de tiempo de sistemas publicados para automatización de mezcla musical entre 2007 y 2017, clasificados por tipo de proceso automatizado. Fuente: De Man et al. [4].}
+\label{fig:fig7}
+\end{figure}
+
+En el enfoque del aprendizaje profundo aplicado a la mezcla, Martínez Ramírez y Reiss, en [5], presentaron en 2017 una de las primeras propuestas formales para explorar redes neuronales profundas como herramienta de mezcla inteligente. En ese trabajo se propuso tratar el procesamiento de stems como una transformación basada en contenido, entrenando autoencoders profundos (DAE) para aprender la cadena de efectos aplicada por ingenieros profesionales a partir de grabaciones crudas. Los experimentos, llevados a cabo con grupos instrumentales de bajo, guitarra, voz y teclados mostraron que el sistema podía aprender aspectos de la transformación espectral, aunque con limitaciones notables en el caso de la voz, ya que su complejidad tímbrica y variabilidad estilística la hace significativamente más difícil de modelar. Este resultado es particularmente relevante para el presente proyecto, ya que pone de manifiesto que la mezcla vocal representa un desafío específico que justifica un sistema especializado.
+
+Siguiendo esa línea, Martínez Ramírez, Stoller y Moffat, en [2], desarrollaron un sistema de mezcla automática de batería basado en una variante de la arquitectura Wave-U-Net, que opera directamente sobre señales de audio en el dominio temporal sin necesidad de representaciones espectrales. El sistema recibe como entrada las pistas individuales de una grabación de batería y produce como salida la mezcla estéreo completa, aprendiendo simultáneamente todas las transformaciones de audio involucradas como ganancia, paneo, ecualización y compresión dinámica sin modelarlas de manera separada. En pruebas de escucha subjetiva con veinte participantes, los resultados del modelo Wave-U-Net fueron perceptualmente indistinguibles de las mezclas realizadas por ingenieros humanos, mientras que el enfoque basado en random forests utilizado como base, obtuvo calificaciones significativamente más bajas. Este estudio resulta una evidencia sólida del potencial del aprendizaje profundo para automatizar la mezcla, pero también resalta que el éxito del modelo depende en gran medida de la consistencia y estructura del material musical utilizado.
+
+Una respuesta a esa limitación fue explorada por Vanka et al. en [1], quienes investigaron de manera sistemática la adopción de herramientas de IA en flujos de trabajo de mezcla musical, prestando especial atención a las expectativas y actitudes de distintos grupos de usuarios. A través de entrevistas con ingenieros profesionales, cuestionarios con semi-profesionales y análisis de foros de internet, los autores confirmaron que las necesidades de los usuarios varían según su nivel de experiencia. Los amateurs buscan soluciones automatizadas que les permitan tratar su música sin necesidad de dominar los aspectos técnicos del proceso de mezcla; los semi-amateurs utilizan las herramientas como punto de partida y como recurso de aprendizaje y los profesionales, que ya cuentan con flujos de trabajo establecidos, prefieren herramientas que asistan y co-creativas que les ofrezcan control y opciones de personalización avanzada. Una observación importante del estudio es que el 54\% de ingenieros entrevistados no utiliza herramientas de IA en sus flujos de trabajo, lo que sugiere que la adopción todavía enfrenta problemas relacionados con la calidad de los resultados, la integración en flujos de trabajo existentes y la confianza en los sistemas automatizados.
+
+Moliner et al. en [3] introdujeron en 2025 MEGAMI, el primer framework generativo para mezcla automática de música multipista. A diferencia de todos los enfoques anteriores que trataban la mezcla como un problema de regresión determinística (prediciendo una única mezcla a partir de un conjunto de pistas), MEGAMI modela la distribución condicional de mezclas profesionales, reconociendo explícitamente que múltiples mezclas válidas pueden existir para las mismas entradas. El sistema opera en un espacio de embeddings de efectos, separando las decisiones de mezcla del contenido musical mediante representaciones aprendidas. En la evaluación objetiva, MEGAMI superó consistentemente a todos los sistemas de línea de base, y en las pruebas de escucha subjetiva se acercó a la calidad de las mezclas realizadas por ingenieros humanos, incluso superándolos en algunos géneros. Esta investigación es de las más recientes en cuanto sistemas automatizados de mezcla, estableciendo un referente técnico importante para el presente proyecto, que busca desarrollar un sistema especializado en la voz con un enfoque asistivo en lugar de completamente automático.
+
+A partir de este mismo problema por evitar sistemas cerrados o poco interpretables, Steinmetz et al. [7] propusieron un enfoque de mezcla multipista basado en una consola de mezcla diferenciable compuesta por efectos neuronales de audio. A diferencia de los modelos que generan directamente una señal final, este sistema estima parámetros de mezcla legibles por el usuario lo que permite revisar y ajustar manualmente el resultado generado. El trabajo resulta importante para el presente proyecto porque plantea una alternativa intermedia entre la automatización completa y la asistencia controlada: el sistema puede aprender convenciones de mezcla a partir de datos reales pero conserva una estructura cercana al flujo de trabajo tradicional del ingeniero basada en parámetros, canales y procesos ajustables. Esta lógica se relaciona directamente con la plataforma propuesta, ya que el objetivo no es entregar una mezcla vocal cerrada sino sugerir una cadena de procesamiento que pueda ser modificada por el usuario.
+
+Desde una perspectiva más conceptual, Lefford et al. [8] introdujeron la noción de sistemas inteligentes de mezcla conscientes del contexto. Los autores señalan que las decisiones de mezcla no dependen únicamente de reglas técnicas, sino también del género musical, la intención emocional, las expectativas del cliente, el entorno de trabajo y la experiencia del ingeniero. Esta investigación permite ampliar la comprensión del problema ya que muestra que una herramienta inteligente no debería limitarse a analizar la señal de audio de manera aislada, sino que también debería considerar las condiciones particulares de uso. Para el presente proyecto este planteamiento es importante porque justifica que la plataforma incorpore información contextual como el género, el tipo de voz, la intención sonora o una referencia musical.
+
+En relación con la comunicación entre usuario y sistema, Venkatesh, Moffat y Miranda [9] estudiaron el uso de word embeddings para la ecualización automática en mezcla de audio. Su investigación propone traducir descriptores semánticos a configuraciones de ecualización, permitiendo que términos como "calida", "brillante", "oscura" o "suave" puedan relacionarse con curvas de EQ. Este antecedente resulta especialmente útil para el desarrollo de una plataforma de asistencia en mezcla vocal, ya que muchos productores y artistas no comunican sus objetivos sonoros mediante parámetros técnicos, sino mediante descripciones perceptuales. Por lo tanto, la incorporación de descriptores semánticos podría facilitar que el usuario exprese la intención de la voz de una manera más intuitiva, mientras el sistema traduce esa intención en una posible recomendación de procesamiento.
+
+Por otra parte, Mourgela et al. [10] aportan una perspectiva basada en el análisis de grandes volúmenes de datos reales de mezclas y masters. Su estudio examina más de 218.000 entradas provenientes de una plataforma web de análisis de audio, considerando variables como loudness integrado, true peak, clipping, compresión, problemas de fase, compatibilidad mono, amplitud estéreo y perfil tonal. Esto es realmente importante para el presente proyecto porque permite justificar la selección de métricas objetivas para evaluar las cadenas generadas por el sistema. Aunque la mezcla vocal mantiene un componente subjetivo, el uso de criterios técnicos medibles permite verificar si las propuestas cumplen condiciones básicas de calidad sonora, como evitar distorsión, controlar la dinámica y mantener un balance tonal coherente.
+
+Finalmente, Vanka et al. [11] desarrollaron Diff-MST, un sistema de transferencia de estilo de mezcla basado en una consola diferenciable, un controlador tipo transformer y una función de pérdida orientada al estilo de producción. El sistema recibe pistas crudas y una canción de referencia para estimar parámetros de efectos dentro de una consola de mezcla, permitiendo generar una mezcla con características similares a la referencia y manteniendo la posibilidad de ajustes posteriores. Este antecedente resulta importante porque introduce la referencia musical como una fuente de información para orientar las decisiones del sistema. En el contexto del presente proyecto, esta idea permite pensar la cadena de mezcla vocal no solo desde las características acústicas de la voz, sino también desde el estilo sonoro que el usuario desea alcanzar.
+
+\section{METODOLOGÍA}
+% =====================================================================
+% METODOLOGÍA
+% Contenido transcrito literalmente desde Anteproyecto_JSA__260714_121407.pdf
+% (1.9 Descripción de la metodología de desarrollo del proyecto)
+% =====================================================================
+
+El presente proyecto adopta un enfoque metodológico mixto, que combina elementos cuantitativos y cualitativos para abordar de manera completa la pregunta de investigación. La dimensión cuantitativa se basa en el análisis de características acústicas de señales vocales, el entrenamiento y evaluación de modelos de machine learning y la medición objetiva del desempeño del sistema mediante métricas computacionales. Ahora, la dimensión cualitativa se sustenta en la evaluación perceptual de las propuestas generadas por el sistema a través de pruebas de escucha con usuarios de distintos niveles de experiencia. Este enfoque mixto resulta el más adecuado para la pregunta de investigación porque, como señalan Vanka et al. en [1], la mezcla de audio es un proceso que involucra tanto decisiones técnicas medibles como criterios estéticos y creativos que solo pueden ser evaluados subjetivamente. Un enfoque exclusivamente cuantitativo no capturaría la naturaleza creativa del proceso, mientras que uno solamente cualitativo no permitiría verificar el funcionamiento técnico del sistema propuesto [1].
+
+El diseño del estudio es de tipo descriptivo-exploratorio con un componente de desarrollo tecnológico. Es descriptivo porque se busca caracterizar las propiedades acústicas de señales vocales presentes en grabaciones profesionales e identificar los patrones de procesamiento más comunes en cadenas de mezcla vocal. Es exploratorio porque el desarrollo de sistemas inteligentes especializados en mezcla vocal sigue siendo un campo poco explorado. Martínez Ramírez y Reiss en [5], identificaron que la voz es significativamente más difícil de modelar que otros instrumentos debido a su complejidad tímbrica y variabilidad estilística, lo que justifica un abordaje exploratorio hacia nuevas aproximaciones para este contexto específico [5]. El aspecto de desarrollo tecnológico se apoya con el diseño descriptivo: los hallazgos del análisis acústico, la revisión de patrones de procesamiento y la evaluación con usuarios alimentan directamente el diseño e implementación del sistema inteligente propuesto.
+
+Además, el proyecto se apoya en una perspectiva de sistemas inteligentes asistivos y contextuales. Esto significa que la plataforma no se crea como un sistema de caja negra orientado a reemplazar completamente el criterio del ingeniero, sino como una herramienta capaz de generar propuestas iniciales de procesamiento que puedan ser ajustadas por el usuario. Esta decisión metodológica se sustenta en los planteamientos de Lefford et al. en [8], quienes afirman que las decisiones de mezcla no dependen únicamente de reglas técnicas, sino también del contexto musical, el género, la intención estética, las expectativas del usuario y las condiciones específicas de cada producción. Por esta razón, el sistema propuesto deberá considerar no sólo las características acústicas de la señal vocal, sino también información contextual básica como el género musical, el tipo de voz, la intención sonora buscada y cuando sea posible, una referencia musical proporcionada por el usuario [8].
+
+En cuanto a los datos y fuentes, el proyecto requiere tres tipos de datos principales. El primero corresponde a grabaciones vocales crudas (sin procesar) y sus versiones procesadas con cadenas de mezcla aplicadas por ingenieros profesionales. Este tipo de datos de pares crudos/procesados constituye la base de entrenamiento de los sistemas de aprendizaje profundo para mezcla automática, tal como fue utilizado por Martínez Ramírez y Reiss en [5], quienes emplearon el dataset Open Multitrack Testbed junto con MedleyDB para entrenar autoencoders a partir de stems crudos y procesados. El segundo tipo corresponde a datos de evaluación perceptual, recolectados mediante pruebas de escucha con usuarios y el tercer tipo corresponde a datos semánticos y contextuales relacionados con la manera en que los usuarios describen objetivos sonoros, por ejemplo términos como "brillante", "cálido", "opaco", "presente", "saturado" o "agresivo". Este tercer componente se justifica gracias al trabajo de Venkatesh, Moffat y Miranda en [9], quienes demostraron que los word embeddings pueden utilizarse para traducir descriptores semánticos a configuraciones de ecualización, permitiendo que usuarios sin formación técnica comuniquen sus objetivos creativos de manera más intuitiva [9].
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=0.7\textwidth]{RUTA_A_TU_IMAGEN} % <-- INSERTAR AQUÍ Fig. 8
+\caption{Esquema de traducción de descriptores semánticos a parámetros de ecualización mediante word embeddings. Fuente: Venkatesh, Moffat y Miranda [9].}
+\label{fig:fig8}
+\end{figure}
+
+Las fuentes de datos primarias serán datasets académicos y de canciones ya publicadas y validados, entre los que destacan MedleyDB que contiene grabaciones multipista reales de canciones completas en múltiples géneros con stems separados. Para el componente vocal, se priorizarán grabaciones vocales crudas y procesadas provenientes de datasets abiertos, repositorios multipista y, si es necesario, muestras propias grabadas bajo condiciones controladas. Para el componente semántico, se tomará como referencia el dataset SocialEQ utilizado en [9], ya que permite relacionar descriptores subjetivos con curvas de ecualización. Finalmente, para la definición de métricas objetivas de análisis de mezcla, se tomarán como referencia los criterios utilizados por Mourgela et al. en [10], quienes analizaron una base de datos de más de 218.000 entradas de mezclas y masters a partir de variables como loudness integrado, true peak, clipping, compatibilidad mono, problemas de fase, compresión, amplitud estéreo y perfil tonal [10].
+
+\begin{table}[h!]
+\centering
+\caption{Métodos de análisis de características de audio utilizados para evaluar aspectos técnicos de mezclas y masters. Fuente: Mourgela et al. [10]}
+\label{tab:mourgela}
+\begin{tabular}{|p{3.2cm}|p{9.5cm}|}
+\hline
+\textbf{Feature} & \textbf{Analysis Method} \\
+\hline
+Bit depth, sample rate & Extracted from file \\
+\hline
+Integrated loudness & Calculated based on the ITU BS.1770 standard [11] \\
+\hline
+True peak & Calculated based on the ITU BS.1770 standard [11] \\
+\hline
+Compression & Calculated based on dynamic ranges in decibels (dB) of a signal by measuring 20 times the base-10 logarithm of the ratio between its maximum and mean amplitudes. Dynamic ranges are then compared to empirical average genre-specific levels found in the industry. \\
+\hline
+Stereo Width Balance & Calculated based on the inter-channel level difference. \\
+\hline
+Mono compatibility & Calculated by examining the correlation between the mid and side signals derived from the left and right stereo channels. \\
+\hline
+Tonal Profile & Calculated by dividing its frequency spectrum into defined bands (20-250, 250-2000, 2000-8000, 8000-20000) and comparing the energy within each band to thresholds relating to perceptual weighting. \\
+\hline
+Clipping & Calculated by counting how many samples exceed the digital full scale (0 dBFS) threshold, as well as evaluating the extent of clipping based on the number of clipped samples (over 10000 clipped samples signify major clipping) \\
+\hline
+Phase issues & Assesses the presence of phase issues between the left and right channels of a stereo audio signal by calculating the mean absolute phase difference and comparing it to a predefined threshold of 1.7 radians, set heuristically based on typical values observed in songs with noticeable out-of-phase issues. \\
+\hline
+\end{tabular}
+\end{table}
+
+Las herramientas y tecnologías que se emplearán en el desarrollo del proyecto se organizan en cuatro niveles. En el nivel de análisis acústico, se utilizará Python como lenguaje principal, junto con librerías especializadas como Librosa, Essentia, NumPy, SciPy y pyloudnorm para la extracción de características de audio. Entre estas características se contemplan la frecuencia fundamental, relación armónico-ruido (HNR), coeficientes mel-frequency cepstral (MFCC), centroide espectral, energía por bandas, rango dinámico, loudness integrado, true peak y medidas asociadas a estabilidad tonal y dinámica. Estos parámetros permiten construir una representación objetiva del perfil acústico de la voz y del comportamiento técnico de la mezcla.
+
+En el nivel de modelado, se explorarán arquitecturas de machine learning y deep learning orientadas a la predicción de cadenas de procesamiento o parámetros de mezcla. Se tomarán como referencia los autoencoders profundos utilizados por Martínez Ramírez y Reiss en [5], las redes de convolución temporal y consolas diferenciables propuestas por Steinmetz et al. en [7], y los enfoques generativos como MEGAMI propuesto por Moliner et al. en [3]. Sin embargo, debido al alcance del presente anteproyecto, el objetivo no será replicar completamente estos sistemas, sino adaptar sus principios metodológicos al diseño de una plataforma especializada en mezcla vocal. En ese sentido, se priorizará un enfoque de estimación de parámetros y recomendación de cadenas, más que una transformación directa de audio completamente automática.
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=0.9\textwidth]{RUTA_A_TU_IMAGEN} % <-- INSERTAR AQUÍ Fig. 10
+\caption{Diagrama de una consola de mezcla diferenciable orientada a la estimación de parámetros de procesamiento de audio. Fuente: Steinmetz et al. [7].}
+\label{fig:fig10}
+\end{figure}
+
+En el nivel de interacción con el usuario, se considerará la posibilidad de integrar descriptores semánticos y referencias musicales como entradas complementarias del sistema. El uso de descriptores semánticos permitirá que el usuario indique una intención sonora de manera más natural, por ejemplo "quiero una voz más brillante" o "quiero una voz menos nasal", mientras que el uso de una canción de referencia permitirá orientar la propuesta hacia un estilo de mezcla específico. Este componente se relaciona con el trabajo de Diff-MST propuesto por Vanka et al. en [11], donde el sistema utiliza pistas crudas y una canción de referencia para estimar parámetros de una consola de mezcla diferenciable, conservando la posibilidad de realizar ajustes posteriores por parte del usuario [11]. Esta idea resulta especialmente pertinente para el presente proyecto, ya que permite mantener el control creativo del productor o ingeniero en lugar de sustituirlo por una decisión automática cerrada.
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=0.9\textwidth]{RUTA_A_TU_IMAGEN} % <-- INSERTAR AQUÍ Fig. 11
+\caption{Arquitectura de un sistema de transferencia de estilo de mezcla basado en pistas crudas, referencia sonora y estimación de parámetros mediante consola diferenciable. Fuente: Vanka et al. [11].}
+\label{fig:fig11}
+\end{figure}
+
+En el nivel de evaluación se emplearán pruebas objetivas y subjetivas. Para la evaluación objetiva se calcularán métricas técnicas relacionadas con el comportamiento espectral, dinámico y espacial de las propuestas generadas por el sistema. Entre estas métricas se incluirán loudness integrado, true peak, detección de clipping, rango dinámico, balance tonal por bandas, estabilidad de la señal vocal, similitud espectral con la referencia y consistencia de los parámetros sugeridos. Estas métricas se seleccionan teniendo en cuenta los criterios utilizados por Mourgela et al. en [10], quienes evidenciaron que problemas como exceso de loudness, clipping, desbalance tonal, subcompresión, sobrecompresión y problemas de compatibilidad mono siguen siendo recurrentes en producciones realizadas por usuarios reales. Para la evaluación perceptual, se empleará el Web Audio Evaluation Tool o una plataforma equivalente de pruebas de escucha, siguiendo metodologías utilizadas en investigaciones previas sobre mezcla automática [2], [7].
+
+El procedimiento de análisis se organiza en cinco fases consecutivas. La primera fase consiste en la revisión y ajuste del protocolo de revisión sistemática de literatura, con el fin de consolidar los artículos relacionados con mezcla automática, inteligencia artificial aplicada al audio, procesamiento vocal, sistemas inteligentes asistivos, descriptores semánticos y evaluación perceptual. En esta fase se clasifican los documentos según su nivel de relación con el proyecto y se determina cuáles aportan al marco conceptual, al marco referencial o al diseño metodológico.
+
+La segunda fase corresponde a la adquisición y preparación de datos. En esta etapa se identificarán y seleccionarán datasets de grabaciones multipista, señales vocales crudas y procesadas, y posibles bases de datos semánticas asociadas a descriptores de mezcla. Las señales serán organizadas según criterios como tipo de voz, género musical, estado de procesamiento, formato de archivo, frecuencia de muestreo, duración y calidad de grabación. También se aplicarán procesos de normalización, segmentación y limpieza de datos para garantizar que las señales utilizadas en el análisis y entrenamiento sean comparables.
+
+La tercera fase corresponde al análisis acústico de las señales vocales. En esta etapa se extraerán características objetivas de las voces crudas y procesadas, tales como frecuencia fundamental, rango dinámico, energía espectral por bandas, MFCC, HNR, centroide espectral, sibilancia, presencia, resonancias problemáticas y estabilidad de nivel. De manera complementaria, se analizarán parámetros asociados a la mezcla general como loudness, true peak, balance tonal, clipping y compresión. El propósito de esta fase es identificar patrones técnicos que permitan relacionar las características iniciales de una voz con decisiones frecuentes de procesamiento, como ecualización correctiva, compresión, de-essing, saturación o reverberación.
+
+La cuarta fase corresponde al diseño, entrenamiento y ajuste del sistema inteligente. A partir de los patrones identificados, se diseñará un modelo capaz de recibir como entrada las características acústicas de una señal vocal y generar como salida una propuesta inicial de cadena de procesamiento ajustable. Esta cadena podrá incluir sugerencias de orden y tipo de procesamiento, tales como filtro de paso alto, ecualización correctiva, compresión, de-essing, saturación, ecualización tonal, delay o reverberación. La salida del sistema no se entenderá como una mezcla final, sino como una guía técnica inicial que el usuario podrá modificar según su criterio. Esta decisión metodológica responde a los hallazgos de Vanka et al. en [1], quienes señalan que los usuarios con mayor experiencia tienden a preferir herramientas asistivas y personalizables antes que sistemas completamente automáticos.
+
+La quinta fase corresponde a la validación del sistema con usuarios. En esta etapa, las propuestas generadas por la plataforma serán evaluadas mediante pruebas de escucha y formularios de retroalimentación aplicados a usuarios con distintos niveles de experiencia: amateurs, semiprofesionales y profesionales. Se evaluará la coherencia técnica de las cadenas propuestas, la utilidad percibida, la facilidad de comprensión, el grado de control que conserva el usuario, la reducción de incertidumbre durante la toma de decisiones y la calidad perceptual del resultado sonoro. Esta clasificación de usuarios se fundamenta en Vanka et al. [1], quienes identifican diferencias importantes entre las expectativas de amateurs, pro-ams y profesionales frente a las herramientas de IA aplicadas a mezcla musical.
+
+Finalmente, los criterios de validación del proyecto operan en dos dimensiones. La validación técnica se realizará mediante métricas objetivas de distancia y similitud entre las propuestas generadas por el sistema y mezclas o cadenas de referencia realizadas por profesionales. También se evaluará si las recomendaciones cumplen criterios básicos de calidad técnica, tales como evitar clipping, conservar rango dinámico, mantener un balance tonal coherente y no generar procesamientos extremos sin justificación acústica. La validación perceptual se llevará a cabo mediante pruebas de escucha subjetiva con usuarios, en las que se evaluará la coherencia, utilidad y adecuación de las propuestas generadas por el sistema. Para el análisis estadístico de los resultados de las pruebas de escucha, se emplearán pruebas no paramétricas como el test de Kruskal-Wallis, que ha sido utilizado en evaluaciones perceptuales de sistemas de mezcla automática para verificar diferencias estadísticamente significativas entre enfoques [2], [7]. La combinación de ambas dimensiones de validación técnica y perceptual garantiza que los resultados del proyecto sean tanto computacionalmente sólidos como significativos desde la perspectiva de los usuarios reales del sistema.
+
+\begin{longtable}{|p{2.2cm}|p{3.5cm}|p{1.0cm}|p{1.8cm}|p{2.8cm}|p{2.8cm}|}
+\caption{Cronograma y fases metodológicas del proyecto}
+\label{tab:cronograma} \\
+\hline
+\textbf{Fase metodológica} & \textbf{Actividades específicas} & \textbf{Semanas} & \textbf{Responsable} & \textbf{Recursos humanos, software e infraestructura} & \textbf{Producto entregable} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Fase metodológica} & \textbf{Actividades específicas} & \textbf{Semanas} & \textbf{Responsable} & \textbf{Recursos humanos, software e infraestructura} & \textbf{Producto entregable} \\
+\hline
+\endhead
+\hline
+\endfoot
+Fase 1. Revisión y ajuste del protocolo de revisión sistemática de literatura & Revisión del protocolo RSL, ajuste de ecuaciones de búsqueda, selección de artículos, clasificación de fuentes y actualización de la tabla de sistematización. & 1 - 3 & Estudiante investigador & Computador, bases de datos académicas, artículos científicos, gestor bibliográfico, asesor del proyecto. & Protocolo de búsqueda ajustado, tabla de sistematización actualizada y selección final de referencias. \\
+\hline
+Fase 2. Adquisición y preparación de datos & Búsqueda de datasets vocales y multipista, selección de señales crudas y procesadas, organización por tipo de voz, género musical, estado de procesamiento, formato, duración y calidad de grabación. & 4 - 6 & Estudiante investigador & Datasets abiertos, repositorios multipista, DAW, interfaz de audio, micrófono, computador y sistema de almacenamiento. & Banco inicial de señales vocales crudas y procesadas, organizado y listo para análisis. \\
+\hline
+Fase 3. Análisis acústico e identificación de patrones de procesamiento vocal & Extracción de características acústicas como F0, HNR, MFCC, centroide espectral, sibilancia, rango dinámico, loudness y true peak. Análisis de relaciones entre características vocales y decisiones de procesamiento como EQ, compresión, de-essing, saturación y reverberación. & 7 - 10 & Estudiante investigador & Python, Librosa, Essentia, NumPy, SciPy, pyloudnorm, DAW, plugins de mezcla y hojas de cálculo. & Matriz de características acústicas y relación preliminar entre perfil vocal y cadena de procesamiento sugerida. \\
+\hline
+Fase 4. Diseño e implementación del sistema inteligente & Diseño conceptual de la arquitectura del sistema, definición de entradas y salidas, construcción del modelo o sistema de recomendación, generación de propuestas de cadenas vocales ajustables y pruebas internas del prototipo. & 11 - 13 & Estudiante investigador & Python, librerías de machine learning, herramientas de prototipado, DAW, plugins de audio y computador. & Prototipo inicial capaz de generar propuestas de cadenas de mezcla vocal a partir del análisis de una señal vocal. \\
+\hline
+Fase 5. Validación, evaluación, ajustes finales y redacción del proyecto & Evaluación técnica mediante métricas objetivas, pruebas de escucha con usuarios, recolección de retroalimentación, ajuste del sistema, análisis de resultados, redacción final, conclusiones y preparación de sustentación. & 14 - 16 & Estudiante investigador, usuarios participantes, productores o ingenieros de sonido con distintos niveles de experiencia. & Web Audio Evaluation Tool o formulario de evaluación, audífonos o monitores, señales de prueba, software de análisis estadístico, documento final y recursos de presentación. & Resultados técnicos y perceptuales, versión ajustada del sistema, documento final del proyecto y presentación de sustentación. \\
+\hline
+\end{longtable}
+
+% NOTA: tu anteproyecto (PDF) no incluye texto para RESULTADOS, DISCUSIÓN,
+% CONCLUSIONES ni RECOMENDACIONES todavía.
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{REFERENCIAS}
+\section*{REFERENCIAS}
+
+\begin{enumerate}[label={[\arabic*]}, leftmargin=1.6cm]
+\item M. A. Martínez Ramírez and J. D. Reiss, ``Deep Learning and Intelligent Audio Mixing,'' in \textit{Proceedings of the 3rd Workshop on Intelligent Music Production}, Salford, U.K., Sep. 2017.
+
+\item B. De Man, J. D. Reiss, and R. Stables, ``Ten Years of Automatic Mixing,'' in \textit{Proceedings of the 3rd Workshop on Intelligent Music Production}, Salford, U.K., Sep. 2017.
+
+\item E. Moliner et al., ``Automatic Music Mixing Using a Generative Model of Effect Embeddings,'' arXiv preprint arXiv:2511.08040, 2025.
+
+\item M. A. Martínez Ramírez, D. Stoller, and D. Moffat, ``A Deep Learning Approach to Intelligent Drum Mixing With the Wave-U-Net,'' \textit{Journal of the Audio Engineering Society}, 2021.
+
+\item S. S. Vanka, M. Safi, J.-B. Rolland, and G. Fazekas, ``Adoption of AI Technology in the Music Mixing Workflow: An Investigation,'' \textit{Audio Engineering Society Convention Paper}, 2023.
+
+\item Chen, ``Enhancing Vocal Performance Through Computer-Assisted Training.''
+
+\item C. J. Steinmetz et al., ``Automatic Multitrack Mixing With a Differentiable Mixing Console of Neural Audio Effects.''
+
+\item M. N. Lefford, G. Bromham, G. Fazekas, and D. Moffat, ``Context-Aware Intelligent Mixing Systems,'' \textit{Journal of the Audio Engineering Society}, vol. 69, no. 3, pp. 128--141, 2021.
+
+\item S. Venkatesh et al., ``Word Embeddings for Automatic Equalization in Audio Mixing.''
+
+\item Mourgela et al., ``Exploring Trends in Audio Mixes and Masters: Insights From a Dataset Analysis.''
+
+\item S. S. Vanka et al., ``Diff-MST: Differentiable Mixing Style Transfer,'' in \textit{Proceedings of the International Society for Music Information Retrieval Conference (ISMIR)}, 2024.
+\end{enumerate}
+
+\end{document}

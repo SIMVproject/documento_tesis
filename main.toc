@@ -1,0 +1,19 @@
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
+\contentsline {section}{RESUMEN}{7}{section*.1}%
+\contentsline {section}{ABSTRACT}{8}{section*.2}%
+\contentsline {section}{\numberline {I}INTRODUCCIÓN}{9}{section.1}%
+\contentsline {section}{\numberline {II}ANTECEDENTES}{11}{section.2}%
+\contentsline {section}{\numberline {III}PLANTEAMIENTO DEL PROBLEMA}{14}{section.3}%
+\contentsline {section}{\numberline {IV}JUSTIFICACIÓN}{16}{section.4}%
+\contentsline {section}{\numberline {V}OBJETIVOS}{17}{section.5}%
+\contentsline {subsection}{\numberline {A}Objetivo General}{17}{subsection.5.1}%
+\contentsline {subsection}{\numberline {B}Objetivos Especificos}{17}{subsection.5.2}%
+\contentsline {section}{\numberline {VI}PROBLEMA DE INVESTIGACIÓN}{18}{section.6}%
+\contentsline {section}{\numberline {VII}HIPÓTESIS}{19}{section.7}%
+\contentsline {section}{\numberline {VIII}MARCO TEÓRICO}{20}{section.8}%
+\contentsline {section}{\numberline {IX}METODOLOGÍA}{33}{section.9}%
+\contentsline {section}{\numberline {X}RESULTADOS}{42}{section.10}%
+\contentsline {section}{\numberline {XI}DISCUSIÓN}{43}{section.11}%
+\contentsline {section}{\numberline {XII}CONCLUSIONES}{44}{section.12}%
+\contentsline {section}{\numberline {XIII}RECOMENDACIONES}{45}{section.13}%
